@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>gifplayer. Customizable jquery plugin to play and stop animated gifs. Similar to 9gag's</title>
+	<link rel="stylesheet" href="css/normalize.css" />
+	<link rel="stylesheet" href="css/index.css" />
+	<link rel="icon" type="image/png" href="media/banana.png" />
+</head>
+
+<body>
+	<div id="app" class="main">
+    <template>
+      	<h1>gifplayer</h1>
+        <section class="container">
+          <h2>Default options:</h2>
+          <gif-player ref="example1" :src="url"></gif-player>
+        </section>
+    </template>
+  </div>
+  <script src='https://unpkg.com/vue@2.2.6/dist/vue.js'></script>
+  <script src="../dist/vue-gif-player.min.js"></script>
+  <script type="text/javascript">
+    Vue.use(VueGifPlayer)
+    var Main = {
+      name: 'test',
+      data() {
+        return {
+          url: 'media/banana.png'
+        }
+      },
+      methods: {
+
+      }
+    }
+    var Actor = Vue.extend(Main)
+    new Actor().$mount('#app')
+  </script>
+	</body>
+</html>
