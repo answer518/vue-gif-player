@@ -1,7 +1,7 @@
 <template>
-    <div class="gifplayer-wrapper">
+    <div ref="gifplayer" class="gifplayer-wrapper" :style="gifStyle">
         <div v-if="!isPlaying" class="gifplayer-preview">
-            <img class="gifplayer gifplayer-ready" :src="src">
+            <img class="gifplayer" :src="src" @load="load">
             <div v-if="pending" class="spinner"></div>
             <ins class="play-gif" @click="playGif">GIF</ins>
         </div>
@@ -56,7 +56,8 @@ export default {
         return {
             isPlaying: false,
             gifStat: 'init',
-            gifSrc: this.src
+            gifSrc: this.src,
+            gifStyle: {}
         }
     },
     computed: {
@@ -67,8 +68,7 @@ export default {
             return this.gifStat === 'loaded'
         }
     },
-    mounted() {
-    },
+    mounted() {},
     methods: {
         playGif() {
             this.onClick()
@@ -83,14 +83,14 @@ export default {
             }
         },
         preLoadGif(src) {
-            const img = new Image()
-            img.src = src
-            img.onload = () => {
+            const gifImg = new Image()
+            gifImg.src = src
+            gifImg.onload = () => {
                 this.gifStat = 'loaded'
                 this.gifSrc = src
                 this.isPlaying = true
             }
-            img.onerror = () => {
+            gifImg.onerror = () => {
                 console.log('error')
             }
         },
@@ -105,6 +105,14 @@ export default {
                 gifSrc = gifSrc.replace(pattrn, ext)
             }
             return gifSrc
+        },
+        load() {
+            const gifplayerWrapper = this.$refs.gifplayer
+            const gifplayer = gifplayerWrapper.getElementsByClassName('gifplayer')[0]
+            this.gifStyle = {
+                width: gifplayer.width + 'px',
+                height: gifplayer.height + 'px'
+            }
         }
     },
     destroyed() {}
@@ -115,8 +123,6 @@ export default {
 
 .gifplayer-wrapper {
     position: relative;
-    width: 365px;
-    height: 360px;
 }
 
 .play-gif{
